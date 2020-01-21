@@ -70,7 +70,7 @@ int main()
 	std::vector<std::shared_ptr<Cluster>> clusters;
 	clusters.reserve(K);
 	for (size_t i = 0; i < cluster_centers.size(); ++i) {
-		clusters.push_back(std::make_shared<Cluster>(cluster_centers[i]));
+		clusters.push_back(std::make_shared<Cluster>(n));
 	}
 
 	int iterCounter = 0;
@@ -80,28 +80,20 @@ int main()
 		pkThreads.reserve(numCPU);
 
 		for (size_t i = 0; i < numCPU; ++i) {
-			pkThreads.emplace_back([i, numCPU, &clusters, &points] {
-				double minDistance = 0;
-				int minIndex = 0;
-
-				int q = 0;
-				int theMostNearCluster = 0;
-
-				for (size_t j = i; i < points.size(); j += numCPU) {
-					for (auto& cl : clusters) {
-						++q;
-						if ((minDistance == 0 && (j % numCPU == 0 || j == 0)) || (minDistance > getDistance(points[j], cl->getCenter()))) {
-							minDistance = getDistance(points[j], cl->getCenter());
-							minIndex = j;
-							theMostNearCluster = q;
+			pkThreads.emplace_back([i, numCPU, &cluster_centers, &clusters, &points] {
+				for (size_t j = i; j < points.size(); j += numCPU) {
+					double minDistance = getDistance(points[j], cluster_centers[0]);
+					size_t clusterIndex = 0;
+					for (size_t k = 1; k < cluster_centers.size(); ++k) {
+						double d = getDistance(points[j], cluster_centers[k]);
+						if (d < minDistance) {
+							minDistance = d;
+							clusterIndex = k;
 						}
 					}
+					clusters[clusterIndex]->add(points[j]);
 				}
-				clusters[theMostNearCluster]->add(points[minIndex]);
-
-				minIndex = 0;
-				minDistance = 0;
-				});
+			});
 		}
 		for (auto& t : pkThreads) t.join();
 
