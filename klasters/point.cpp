@@ -45,7 +45,7 @@ std::istream& operator>>(std::istream& is, point& p)
 std::ostream& operator<<(std::ostream& is, const point& p)
 {
 	for (size_t i = 0; i < p.v_arr.size(); ++i) {
-		is << p.v_arr[i];
+		is << p.v_arr[i] << " ";
 	}
-	return is;
+	return is << "\n";
 }

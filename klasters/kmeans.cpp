@@ -51,7 +51,7 @@ int main()
 		points.push_back(p);
 	}
 	const uint32_t pointsCounter = points.size(); //		(pointsCounter <= 1 000 000)
-	const uint16_t K = 2; //number of centers  (K < 1000)
+	const uint16_t K = 3; //number of centers  (K < 1000)
 
 	std::vector<uint32_t> partOfPoints(numCPU);
 	for (auto& x : partOfPoints) {
@@ -65,7 +65,9 @@ int main()
 
 	std::vector<point> cluster_centers;
 	for (size_t i = 0; i < K; ++i) {
-		cluster_centers.emplace_back(generatePoint(n, random_generator));
+		size_t p = random_generator() % n;
+		cluster_centers.emplace_back(points[p]);
+		points.erase(points.begin() + p - 1, points.begin() + p);
 	}
 
 	std::vector<std::shared_ptr<Cluster>> clusters;
@@ -119,7 +121,6 @@ int main()
 		ofs.open("output.txt");
 		ofs << "\n...............\n";
 		for (size_t i = 0; i < cluster_centers.size(); ++i) {
-			if (i % n == 0) ofs << "\n";
 			ofs << cluster_centers[i];
 		}
 	}

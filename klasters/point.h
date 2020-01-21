@@ -16,6 +16,6 @@ struct point
 	bool operator!=(const point& right) const;
 
 	friend std::istream& operator>>(std::istream& is, point& p);
-	friend std::ostream& operator<<(std::ostream& is, point& p);
+	friend std::ostream& operator<<(std::ostream& is, const point& p);
 };
 

@@ -35,7 +35,9 @@ void Cluster::add(const point& p)
 point Cluster::getCenter() const
 {	
 	point center = sum_;
-	center.v_arr /= n_;
+	if (n_ != 0 && n_ != 1) {
+		center.v_arr /= n_;
+	} 
 
 	return center;
 }
