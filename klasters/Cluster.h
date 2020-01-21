@@ -5,7 +5,7 @@
 //local
 #include "point.h"
 
-class Cluster
+class cluster
 {
 	std::mutex mutex_;
 	point sum_;
@@ -13,10 +13,10 @@ class Cluster
 
 public:
 
-	Cluster();
-	Cluster(const point & point);
-	Cluster(const int dimension);
-	~Cluster() {};
+	cluster();
+	cluster(const point & point);
+	cluster(const int dimension);
+	~cluster() {};
 
 	void reset();
 	void add(const point& p);

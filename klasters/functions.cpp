@@ -18,14 +18,3 @@ int getDistance(const point& X, const point& Y)
 	return distance; //probably i can return without sqrt 
 }
 
-point generatePoint(const uint16_t n, std::mt19937_64 & random_generator)
-{
-	point tmp;
-	tmp.v_arr.resize(n);
-	for (size_t index = 0; index < n; ++index) {
-		int rand = random_generator();
-		tmp.v_arr[index] = *reinterpret_cast<float*>( &rand );
-	}
-	return tmp;
-}
-
