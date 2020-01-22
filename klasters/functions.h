@@ -1,12 +1,14 @@
+/* Copyright 2020 Igor Lyamin */
+
 #pragma once
 
-//global
+/*global*/
 #include <windows.h>
 #include <thread>
 #include <mutex>
 
-//local
+/*local*/
 #include "point.h"
 
-int getCountOfThreads(); //returns the available number of threads
-int getDistance(const point& X, const point& Y); //returns the distance between 2 points
+int getCountOfThreads();  // available number of threads
+int getDistance(const point& X, const point& Y);  // distance between 2 points

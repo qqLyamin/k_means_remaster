@@ -1,24 +1,25 @@
+/* Copyright 2020 Igor Lyamin */
+
 #pragma once
-//global
+
+/*global*/
 #include <mutex>
 
-//local
+/*local*/
 #include "point.h"
 
-class cluster
-{
-	std::mutex mutex_;
-	point sum_;
-	size_t n_;
+class cluster {
+  std::mutex mutex_;
+  point sum_;
+  size_t n_;
 
-public:
+ public:
+  cluster();
+  explicit cluster(const point & point);
+  explicit cluster(const int dimension);
+  ~cluster() {}
 
-	cluster();
-	cluster(const point & point);
-	cluster(const int dimension);
-	~cluster() {};
-
-	void reset();
-	void add(const point& p);
-	point getCenter() const;
+  void reset();
+  void add(const point& p);
+  point getCenter() const;
 };
