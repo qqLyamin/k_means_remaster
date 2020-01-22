@@ -18,4 +18,3 @@ int getDistance(const point& X, const point& Y) {
   }
   return distance;  // probably i can return without sqrt
 }
-

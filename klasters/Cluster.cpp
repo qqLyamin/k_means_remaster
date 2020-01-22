@@ -36,6 +36,3 @@ point cluster::getCenter() const {
   }
   return center;
 }
-
-
-
