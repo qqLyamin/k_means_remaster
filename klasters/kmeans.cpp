@@ -1,6 +1,6 @@
 ﻿/* Copyright 2020 Igor Lyamin */
 
-/*global*/
+/* global */
 #include <stdio.h>
 #include <windows.h>
 #include <iostream>
@@ -14,7 +14,7 @@
 #include <set>
 #include <fstream>
 
-/*local*/
+/* local */
 #include "point.h"
 #include "cluster.h"
 #include "functions.h"

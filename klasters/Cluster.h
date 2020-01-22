@@ -2,10 +2,10 @@
 
 #pragma once
 
-/*global*/
+/* global */
 #include <mutex>
 
-/*local*/
+/* local */
 #include "point.h"
 
 class cluster {

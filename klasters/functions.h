@@ -2,12 +2,12 @@
 
 #pragma once
 
-/*global*/
+/* global */
 #include <windows.h>
 #include <thread>
 #include <mutex>
 
-/*local*/
+/* local */
 #include "point.h"
 
 int getCountOfThreads();  // available number of threads

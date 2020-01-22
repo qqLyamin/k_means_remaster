@@ -2,7 +2,7 @@
 
 #pragma once
 
-/*global*/
+/* global */
 #include <random>
 #include <valarray>
 #include <istream>
