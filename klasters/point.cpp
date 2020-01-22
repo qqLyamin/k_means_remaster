@@ -1,5 +1,8 @@
 #include "point.h"
 
+//local
+#include "functions.h"
+
 point::point()
 {
 	v_arr.resize(0);
@@ -32,6 +35,12 @@ bool point::operator!=(const point& right) const
 		if (bull == 0) return true;
 	}
 	return false;
+}
+
+bool point::operator<(const point& right) const
+{
+	point tmp(v_arr.size());
+	return getDistance(*this, tmp) < getDistance(right, tmp);
 }
 
 std::istream& operator>>(std::istream& is, point& p)

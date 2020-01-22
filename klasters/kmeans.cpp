@@ -1,12 +1,10 @@
 ﻿//global
 #include <iostream>
-//#include <cstdint>
 #include <list>
 #include <vector> 
 #include <thread>
 #include <chrono>
 #include <mutex>
-//#include <functional>
 #include <windows.h>
 #include <sstream>
 #include <locale>
@@ -54,10 +52,8 @@ int main()
 	}
 	const uint32_t pointsCounter = points.size(); // < 1 000 000
 	ifs.close();
-	////////////////////////////////////////////////////////
 
 	const uint16_t K = 3; //number of centers  (K < 1000)
-
 
 	//select the centers randomly from the vector of points//
 	size_t a = 0;
@@ -70,8 +66,6 @@ int main()
 			cluster_centers.push_back(points[i + a]);
 		}
 	}
-	////////////////////////////////////////////////////////
-
 
 	/////////////////making K clusters//////////////////////
 	std::vector<std::shared_ptr<cluster>> clusters;
@@ -79,8 +73,6 @@ int main()
 	for (size_t i = 0; i < cluster_centers.size(); ++i) {
 		clusters.push_back(std::make_shared<cluster>(n));
 	}
-	////////////////////////////////////////////////////////
-	
 
 	////////////////////reculculation///////////////////////
 	int iterCounter = 0;
@@ -102,7 +94,7 @@ int main()
 					}
 					clusters[clusterIndex]->add(points[j]);
 				}
-				});
+			});
 		}
 		for (auto& t : pkThreads) t.join();
 
@@ -121,19 +113,16 @@ int main()
 			break;
 		}
 	}
-	////////////////////////////////////////////////////////
-
 
 	///////////////////output writing///////////////////////
 	{
 		std::ofstream ofs;
 		ofs.open("output.txt");
+		std::sort(cluster_centers.begin(), cluster_centers.end());
 		for (size_t i = 0; i < cluster_centers.size(); ++i) {
 			ofs << cluster_centers[i];
 		}
 	}
-	////////////////////////////////////////////////////////
-
 
 	///////////////////time checking////////////////////////
 	auto end = std::chrono::steady_clock::now();
@@ -141,5 +130,4 @@ int main()
 
 	std::cout << "The time: " << elapsed_ms.count() << " ms\n";
 	std::cout << iterCounter << std::endl;
-	////////////////////////////////////////////////////////
 }
