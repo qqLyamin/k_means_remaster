@@ -17,6 +17,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install cpplint
       - name: stylelint
-        run: cpplint --recursive
+        run: cpplint --recursive *.cpp *.h
       - name: check make
         run: make
