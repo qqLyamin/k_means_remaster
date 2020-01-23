@@ -23,7 +23,7 @@ int main() {
 
   /* input reading */
   std::ifstream ifs;
-  ifs.open("input.txt", std::ifstream::in);
+  ifs.open("dim256.txt", std::ifstream::in);
   std::string first_row;
   std::getline(ifs, first_row);
   std::istringstream ist(first_row);
@@ -49,7 +49,7 @@ int main() {
   const uint32_t pointsCounter = points.size();  // < 1 000 000
   ifs.close();
 
-  const uint16_t K = 3;  // number of centers  (K < 1000)
+  const uint16_t K = 15;  // number of centers  (K < 1000)
 
   /* select the centers randomly from the vector of points */
   size_t a = 0;
@@ -98,17 +98,21 @@ int main() {
     }
     for (auto& t : pkThreads) t.join();
 
+    double sum = 0;
+    std::cout << ++iterCounter << " diff : ";
+    for (size_t i = 0; i < cluster_centers.size() - 1; ++i) {
+      sum += getDistance(cluster_centers[i], clusters[i]->getCenter());
+    }
+    std::cout << sum;
+
     bool stop = true;  // did we find the solution?
     float epsilon = 0.001;
     for (size_t i = 0; i < clusters.size(); ++i) {
       point p = clusters[i]->getCenter();
       clusters[i]->reset();
-      /* is center changed? (analog ==) */
       stop &= getDistance(p, cluster_centers[i]) < epsilon;
       cluster_centers[i] = p;
     }
-
-    ++iterCounter;
 
     if (stop) {
       break;

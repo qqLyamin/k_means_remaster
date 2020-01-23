@@ -10,4 +10,4 @@
 #include "point.h"
 
 int getCountOfThreads();  // available number of threads
-int getDistance(const point& X, const point& Y);  // distance between 2 points
+double getDistance(const point& X, const point& Y);  // distance between 2 points
