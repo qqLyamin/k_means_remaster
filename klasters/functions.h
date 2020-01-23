@@ -3,7 +3,6 @@
 #pragma once
 
 /* global */
-#include <windows.h>
 #include <thread>
 #include <mutex>
 

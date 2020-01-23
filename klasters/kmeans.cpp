@@ -1,8 +1,6 @@
 ﻿/* Copyright 2020 Igor Lyamin */
 
 /* global */
-#include <stdio.h>
-#include <windows.h>
 #include <iostream>
 #include <list>
 #include <vector>

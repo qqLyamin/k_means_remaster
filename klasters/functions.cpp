@@ -1,14 +1,10 @@
 /* Copyright 2020 Igor Lyamin */
 
+/* local */
 #include "functions.h"
 
 int getCountOfThreads() {
-  SYSTEM_INFO sysinfo;
-  GetSystemInfo(&sysinfo);
-  int numCPU = sysinfo.dwNumberOfProcessors;
-  numCPU = std::thread::hardware_concurrency() == 0 ?
-      numCPU : std::thread::hardware_concurrency();
-  return numCPU - 1;
+  return std::thread::hardware_concurrency() - 1;
 }
 
 int getDistance(const point& X, const point& Y) {

@@ -17,19 +17,14 @@ point::point(const std::valarray<float>& income) {
 
 bool point::operator==(const point& right) const {
   auto r = this->v_arr == right.v_arr;
-  for (auto& bull : r) {
-    if (bull == 0) return false;
+  for (size_t i = 0; i < r.size(); ++i) {
+    if (!r[i]) return false;
   }
   return true;
 }
 
 bool point::operator!=(const point& right) const {
-  auto r = this->v_arr == right.v_arr;
-  bool tmp = true;
-  for (auto& bull : r) {
-    if (bull == 0) return true;
-  }
-  return false;
+  return !((*this) == right);
 }
 
 bool point::operator<(const point& right) const {
