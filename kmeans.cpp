@@ -23,9 +23,9 @@ int main(int argc, char ** argv) {
 
   options.add_options()
     ("i,input", "Input file name", cxxopts::value<std::string>())
-    ("o,output", "Output file name", cxxopts::value<std::string>()->default_value("output.txt")->implicit_value("output.txt"))
-    ("c,clusters", "The number of centers", cxxopts::value<uint16_t>()->default_value("1")->implicit_value("1"))
-    ("t,threads", "The number of threads (default = maximum)", cxxopts::value<uint16_t>()->default_value("1")->implicit_value("1"))
+    ("o,output", "Output file name", cxxopts::value<std::string>())
+    ("c,clusters", "The number of centers", cxxopts::value<uint16_t>())
+    ("t,threads", "The number of threads (default = maximum)", cxxopts::value<uint16_t>())
     ;
 
   auto result = options.parse(argc, argv);
@@ -49,7 +49,6 @@ int main(int argc, char ** argv) {
     return 1;
   }
 
-  
   std::cout << "input: " << inputFile << std::endl;
   std::cout << "output: " << outputFile << std::endl;
   std::cout << "K: " << K << std::endl;
