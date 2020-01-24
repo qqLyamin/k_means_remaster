@@ -9,7 +9,6 @@
 #include <mutex>
 #include <sstream>
 #include <locale>
-#include <set>
 #include <fstream>
 
 /* local */
