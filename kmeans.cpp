@@ -21,9 +21,17 @@ int main() {
   auto begin = std::chrono::steady_clock::now();  // timer
   int numCPU = getCountOfThreads();  // current number of threads
 
+  std::string inputFile;
+  std::cout << " Enter the file name with the point coordinates : " << std::endl;
+  std::cin >> inputFile;
+
+  std::string outputFile;
+  std::cout << " Enter the file name where we should put the calculated centers : " << std::endl;
+  std::cin >> outputFile;
+
   /* input reading */
   std::ifstream ifs;
-  ifs.open("s3.txt", std::ifstream::in);
+  ifs.open(inputFile, std::ifstream::in);
   std::string first_row;
   std::getline(ifs, first_row);
   std::istringstream ist(first_row);
@@ -49,7 +57,10 @@ int main() {
   const uint32_t pointsCounter = points.size();  // < 1 000 000
   ifs.close();
 
-  const uint16_t K = 15;  // number of centers  (K < 1000)
+  uint16_t K;  // number of centers  (K < 1000)
+
+  std::cout << " Enter a number of clusters( <= 1000 ) : " << std::endl;
+  std::cin >> K;
 
   /* select the centers randomly from the vector of points */
   size_t a = 0;
@@ -122,7 +133,7 @@ int main() {
   /* output writing */
   {
     std::ofstream ofs;
-    ofs.open("output.txt");
+    ofs.open(outputFile);
     std::sort(cluster_centers.begin(), cluster_centers.end());
     for (size_t i = 0; i < cluster_centers.size(); ++i) {
       ofs << cluster_centers[i];
