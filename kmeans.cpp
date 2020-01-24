@@ -22,10 +22,10 @@ int main(int argc, char ** argv) {
   cxxopts::Options options("kmeans", "k_means algorithm programm");
 
   options.add_options()
-    ("i,input", "Input file name", cxxopts::value<std::string>()->default_value("s3.txt")->implicit_value("s3.txt"));
-    ("o,output", "Output file name", cxxopts::value<std::string>()->default_value("output.txt")->implicit_value("output.txt"));
-    ("c,clusters", "The number of centers", cxxopts::value<uint16_t>()->default_value("1")->implicit_value("1"));
-    ("t,threads", "The number of threads (default = maximum)", cxxopts::value<uint16_t>()->default_value("1")->implicit_value("1"));
+    ("i,input", "Input file name", cxxopts::value<std::string>())
+    ("o,output", "Output file name", cxxopts::value<std::string>()->default_value("output.txt")->implicit_value("output.txt"))
+    ("c,clusters", "The number of centers", cxxopts::value<uint16_t>()->default_value("1")->implicit_value("1"))
+    ("t,threads", "The number of threads (default = maximum)", cxxopts::value<uint16_t>()->default_value("1")->implicit_value("1"))
     ;
 
   auto result = options.parse(argc, argv);
@@ -34,8 +34,8 @@ int main(int argc, char ** argv) {
 
   std::string inputFile;
   std::string outputFile;
-  uint16_t K;
-  int numCPU;
+  uint16_t K = 0;
+  int numCPU = 0;
 
   try {
     inputFile = result["i"].as<std::string>();
@@ -43,23 +43,17 @@ int main(int argc, char ** argv) {
     K = result["c"].as<uint16_t>();
     numCPU = result["t"].as<uint16_t>();  // current number of threads
     numCPU = numCPU > getCountOfThreads() ? getCountOfThreads() : numCPU;
-  } catch(cxxopts::OptionParseException err()) {
-    std::cerr << "OptionParseException!" << std::endl;
+  }
+  catch (std::exception & err) {
+    std::cerr << "OptionException! " << err.what() << std::endl;
     return 1;
   }
-  catch (cxxopts::OptionException err()) {
-    std::cerr << "OptionException!" << std::endl;
-    return 1;
-  }
-  catch (std::domain_error err()) {
-    std::cerr << "DomainException!" << std::endl;
-    return 1;
-  }
+
   
-  /*std::cout << "input: " << inputFile << std::endl;
+  std::cout << "input: " << inputFile << std::endl;
   std::cout << "output: " << outputFile << std::endl;
   std::cout << "K: " << K << std::endl;
-  std::cout << "numCPU: " << numCPU << std::endl;*/
+  std::cout << "numCPU: " << numCPU << std::endl;
 
   /* input reading */
   std::ifstream ifs;
