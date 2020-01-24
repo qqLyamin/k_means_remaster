@@ -23,13 +23,13 @@ int main() {
 
   /* input reading */
   std::ifstream ifs;
-  ifs.open("dim256.txt", std::ifstream::in);
+  ifs.open("s3.txt", std::ifstream::in);
   std::string first_row;
   std::getline(ifs, first_row);
   std::istringstream ist(first_row);
 
   size_t dimension = 0;
-  float val;
+  double val;
   while (ist >> val) {
     ++dimension;
   }
@@ -106,7 +106,7 @@ int main() {
     std::cout << sum;
 
     bool stop = true;  // did we find the solution?
-    float epsilon = 0.001;
+    double epsilon = 0.001;
     for (size_t i = 0; i < clusters.size(); ++i) {
       point p = clusters[i]->getCenter();
       clusters[i]->reset();

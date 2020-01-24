@@ -1,0 +1,3 @@
+C:/Users/User/k_means_remaster/CMakeFiles/klasters.dir
+C:/Users/User/k_means_remaster/CMakeFiles/ALL_BUILD.dir
+C:/Users/User/k_means_remaster/CMakeFiles/ZERO_CHECK.dir

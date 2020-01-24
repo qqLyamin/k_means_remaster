@@ -13,7 +13,7 @@ cluster::cluster(const point& point) {
 }
 
 cluster::cluster(const int dimension) : n_(0) {
-  std::valarray<float> tmp;
+  std::valarray<double> tmp;
   tmp.resize(dimension, 0);
   sum_.v_arr = tmp;
 }

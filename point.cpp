@@ -11,7 +11,7 @@ point::point(uint16_t n) {
   v_arr.resize(n, 0);
 }
 
-point::point(const std::valarray<float>& income) {
+point::point(const std::valarray<double>& income) {
   v_arr = income;
 }
 

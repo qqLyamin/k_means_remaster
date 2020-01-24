@@ -8,11 +8,11 @@
 #include <istream>
 
 struct point {
-  std::valarray<float> v_arr;
+  std::valarray<double> v_arr;
 
   point();
   explicit point(uint16_t n);
-  explicit point(const std::valarray<float>& income);
+  explicit point(const std::valarray<double>& income);
 
   bool operator==(const point& right) const;
   bool operator!=(const point& right) const;
