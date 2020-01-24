@@ -16,18 +16,50 @@
 #include "point.h"
 #include "cluster.h"
 #include "functions.h"
+#include "cxxopts.hpp"
 
-int main() {
+int main(int argc, char ** argv) {
+  cxxopts::Options options("kmeans", "k_means algorithm programm");
+
+  options.add_options()
+    ("i,input", "Input file name", cxxopts::value<std::string>()->default_value("s3.txt")->implicit_value("s3.txt"));
+    ("o,output", "Output file name", cxxopts::value<std::string>()->default_value("output.txt")->implicit_value("output.txt"));
+    ("c,clusters", "The number of centers", cxxopts::value<uint16_t>()->default_value("1")->implicit_value("1"));
+    ("t,threads", "The number of threads (default = maximum)", cxxopts::value<uint16_t>()->default_value("1")->implicit_value("1"));
+    ;
+
+  auto result = options.parse(argc, argv);
+
   auto begin = std::chrono::steady_clock::now();  // timer
-  int numCPU = getCountOfThreads();  // current number of threads
 
   std::string inputFile;
-  std::cout << " Enter the file name with the point coordinates : " << std::endl;
-  std::cin >> inputFile;
-
   std::string outputFile;
-  std::cout << " Enter the file name where we should put the calculated centers : " << std::endl;
-  std::cin >> outputFile;
+  uint16_t K;
+  int numCPU;
+
+  try {
+    inputFile = result["i"].as<std::string>();
+    outputFile = result["o"].as<std::string>();
+    K = result["c"].as<uint16_t>();
+    numCPU = result["t"].as<uint16_t>();  // current number of threads
+    numCPU = numCPU > getCountOfThreads() ? getCountOfThreads() : numCPU;
+  } catch(cxxopts::OptionParseException err()) {
+    std::cerr << "OptionParseException!" << std::endl;
+    return 1;
+  }
+  catch (cxxopts::OptionException err()) {
+    std::cerr << "OptionException!" << std::endl;
+    return 1;
+  }
+  catch (std::domain_error err()) {
+    std::cerr << "DomainException!" << std::endl;
+    return 1;
+  }
+  
+  /*std::cout << "input: " << inputFile << std::endl;
+  std::cout << "output: " << outputFile << std::endl;
+  std::cout << "K: " << K << std::endl;
+  std::cout << "numCPU: " << numCPU << std::endl;*/
 
   /* input reading */
   std::ifstream ifs;
@@ -56,11 +88,6 @@ int main() {
   }
   const uint32_t pointsCounter = points.size();  // < 1 000 000
   ifs.close();
-
-  uint16_t K;  // number of centers  (K < 1000)
-
-  std::cout << " Enter a number of clusters( <= 1000 ) : " << std::endl;
-  std::cin >> K;
 
   /* select the centers randomly from the vector of points */
   size_t a = 0;
