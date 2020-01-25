@@ -18,7 +18,7 @@
 #include "cxxopts.hpp"
 
 int main(int argc, char ** argv) {
-  cxxopts::Options options("kmeans", "k_means algorithm programm");
+  cxxopts::Options options("kmeans", "k_means algorithm program");
 
   options.add_options()
     ("i,input", "Input file name", cxxopts::value<std::string>())
@@ -104,7 +104,7 @@ int main(int argc, char ** argv) {
     clusters.push_back(std::make_shared<cluster>(n));
   }
 
-  /* reculculation */
+  /* recalculation */
   int iterCounter = 0;
   while (true) {
     std::vector<std::thread> pkThreads;
