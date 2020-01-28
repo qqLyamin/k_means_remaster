@@ -21,15 +21,13 @@ int main(int argc, char ** argv) {
   cxxopts::Options options("kmeans", "k_means algorithm program");
 
   options.add_options()
-    ("i,input", "Input file name", cxxopts::value<std::string>())
-    ("o,output", "Output file name", cxxopts::value<std::string>())
-    ("c,clusters", "The number of centers", cxxopts::value<uint16_t>())
-    ("t,threads", "The number of threads (default = maximum)", cxxopts::value<uint16_t>())
+    ("i,input", "Input file name", cxxopts::value<std::string>()->default_value("s3.txt"))
+    ("o,output", "Output file name", cxxopts::value<std::string>()->default_value("output.txt"))
+    ("c,clusters", "The number of centers", cxxopts::value<uint16_t>()->default_value("100"))
+    ("t,threads", "The number of threads (default = maximum)", cxxopts::value<uint16_t>()->default_value("1"))
     ;
 
   auto result = options.parse(argc, argv);
-
-  auto begin = std::chrono::steady_clock::now();  // timer
 
   std::string inputFile;
   std::string outputFile;
@@ -106,6 +104,8 @@ int main(int argc, char ** argv) {
 
   /* recalculation */
   int iterCounter = 0;
+  auto begin = std::chrono::steady_clock::now();  // timer
+
   while (true) {
     std::vector<std::thread> pkThreads;
     pkThreads.reserve(numCPU);
@@ -149,6 +149,14 @@ int main(int argc, char ** argv) {
     }
   }
 
+  /* time checking */
+  auto end = std::chrono::steady_clock::now();
+  auto elapsed_ms =
+    std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+
+  std::cout << "The time: " << elapsed_ms.count() << " ms\n";
+  std::cout << iterCounter << std::endl;
+
   /* output writing */
   {
     std::ofstream ofs;
@@ -158,12 +166,4 @@ int main(int argc, char ** argv) {
       ofs << cluster_centers[i];
     }
   }
-
-  /* time checking */
-  auto end = std::chrono::steady_clock::now();
-  auto elapsed_ms =
-    std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
-
-  std::cout << "The time: " << elapsed_ms.count() << " ms\n";
-  std::cout << iterCounter << std::endl;
 }
