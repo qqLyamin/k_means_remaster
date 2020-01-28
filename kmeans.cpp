@@ -21,7 +21,7 @@ int main(int argc, char ** argv) {
   cxxopts::Options options("kmeans", "k_means algorithm program");
 
   options.add_options()
-    ("i,input", "Input file name", cxxopts::value<std::string>()->default_value("s3.txt"))
+    ("i,input", "Input file name", cxxopts::value<std::string>()->default_value("ss3.txt"))
     ("o,output", "Output file name", cxxopts::value<std::string>()->default_value("output.txt"))
     ("c,clusters", "The number of centers", cxxopts::value<uint16_t>()->default_value("100"))
     ("t,threads", "The number of threads (default = maximum)", cxxopts::value<uint16_t>()->default_value("1"))
@@ -55,7 +55,13 @@ int main(int argc, char ** argv) {
   std::ifstream ifs;
   ifs.open(inputFile, std::ifstream::in);
   std::string first_row;
-  std::getline(ifs, first_row);
+
+  if (ifs.is_open()) {
+    std::getline(ifs, first_row);
+  } else {
+    std::cerr << "can not open input file with filename - " + inputFile << std::endl;
+    return -1;
+  }
   std::istringstream ist(first_row);
 
   size_t dimension = 0;
@@ -161,9 +167,14 @@ int main(int argc, char ** argv) {
   {
     std::ofstream ofs;
     ofs.open(outputFile);
-    std::sort(cluster_centers.begin(), cluster_centers.end());
-    for (size_t i = 0; i < cluster_centers.size(); ++i) {
-      ofs << cluster_centers[i];
+    if (ofs.is_open()) {
+      std::sort(cluster_centers.begin(), cluster_centers.end());
+      for (size_t i = 0; i < cluster_centers.size(); ++i) {
+        ofs << cluster_centers[i];
+      }
+    } else {
+      std::cerr << "can not open output file with filename - " + outputFile << std::endl;
+      return -1;
     }
   }
 }
